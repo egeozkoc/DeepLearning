@@ -1,3 +1,8 @@
+"""
+Helpers.py are not written by me and are provided by the Deep Learning course
+at the Friedrich Alexander University Erlangen-Nuremberg, given by Prof. Andreas Maier
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os
