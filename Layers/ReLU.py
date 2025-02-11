@@ -2,32 +2,51 @@ from Layers.Base import BaseLayer
 import numpy as np
 
 def mapReLU(input):
+    """
+    Applies the ReLU function element-wise.
 
-    if input > 0:
-        output = input
-    else:
-        output = 0
+    Args:
+        input (float): Input value.
 
-    return output
+    Returns:
+        float: Output after applying ReLU.
+    """
+    return input if input > 0 else 0
 
 class ReLU(BaseLayer):
-    def __int__(self):
+    """
+    Implements the Rectified Linear Unit (ReLU) activation function as a layer.
+    """
+    
+    def __init__(self):
+        """
+        Initializes the ReLU layer.
+        """
         super().__init__()
+    
     def forward(self, input_tensor):
+        """
+        Performs the forward pass using the ReLU activation function.
+
+        Args:
+            input_tensor (numpy.ndarray): Input tensor.
+
+        Returns:
+            numpy.ndarray: Output tensor after applying ReLU.
+        """
         self.input_tensor = input_tensor
         vReLU = np.vectorize(mapReLU)
-        output_tensor = vReLU(input_tensor)
-        return output_tensor
-
+        return vReLU(input_tensor)
 
     def backward(self, error_tensor):
-        vReLU = np.vectorize(mapReLU)
-        output_error_tensor = vReLU(self.input_tensor)
-        output_error_tensor = output_error_tensor > 0
-        output_error_tensor = np.multiply(output_error_tensor, error_tensor)
-        return output_error_tensor
+        """
+        Performs the backward pass, computing the gradient of the loss with respect to the input.
 
+        Args:
+            error_tensor (numpy.ndarray): Error tensor from the next layer.
 
-
-
-
+        Returns:
+            numpy.ndarray: Gradient of the loss with respect to the input.
+        """
+        output_error_tensor = self.input_tensor > 0
+        return np.multiply(output_error_tensor, error_tensor)
