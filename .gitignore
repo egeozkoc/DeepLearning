@@ -1,2 +1,3 @@
 NeuralNetworkTests.py
 .conda/
+__pycache__/
