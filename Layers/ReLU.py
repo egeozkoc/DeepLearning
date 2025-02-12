@@ -48,5 +48,5 @@ class ReLU(BaseLayer):
         Returns:
             numpy.ndarray: Gradient of the loss with respect to the input.
         """
-        output_error_tensor = self.input_tensor > 0
+        output_error_tensor = np.where(self.input_tensor > 0, 1, 0)
         return np.multiply(output_error_tensor, error_tensor)
