@@ -1,6 +1,7 @@
 class BaseLayer:
     """
-    A base class for all layers in the neural network.
+    In this project we implement a layer oriented Deep Learning framework for high level of abstraction.
+    All the layers in the framework will inherit from the BaseLayer class.
     """
     
     def __init__(self):
