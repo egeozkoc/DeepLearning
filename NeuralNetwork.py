@@ -9,7 +9,7 @@ class NeuralNetwork:
     and optimization methods.
     """
     
-    def __init__(self, optimizer, weights_initializer, bias_initializer):
+    def __init__(self, optimizer, weights_initializer=None, bias_initialize=None):
         """
         Initializes the NeuralNetwork.
 
