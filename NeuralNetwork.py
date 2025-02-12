@@ -1,15 +1,17 @@
 import Layers.FullyConnected
 from Optimization.Loss import CrossEntropyLoss
+from Layers.Initializers import Xavier
+from Layers.Initializers import Constant
 import copy
 
 
 class NeuralNetwork:
     """
     A class representing a neural network model with multiple layers, loss function,
-    and optimization methods.
+    and optimization method.
     """
     
-    def __init__(self, optimizer, weights_initializer, bias_initializer):
+    def __init__(self, optimizer, weights_initializer=None, bias_initializer=None):
         """
         Initializes the NeuralNetwork.
 
@@ -18,6 +20,13 @@ class NeuralNetwork:
             weights_initializer: Function or method to initialize weights.
             bias_initializer: Function or method to initialize biases.
         """
+        if weights_initializer is None:
+
+            weights_initializer = Xavier()
+
+        if bias_initializer is None:
+            bias_initializer = Constant(0.1)
+
         self.optimizer = copy.deepcopy(optimizer)
         self.loss = []
         self.layers = []
