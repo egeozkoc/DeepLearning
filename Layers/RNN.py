@@ -2,6 +2,7 @@ from Layers.Base import BaseLayer
 from Layers.FullyConnected import FullyConnected
 from Layers.TanH import TanH
 from Layers.Sigmoid import Sigmoid
+from Optimization.Optimizers import Sgd
 import numpy as np
 
 class RNN(BaseLayer):
@@ -18,23 +19,18 @@ class RNN(BaseLayer):
             hidden_size (int): Number of hidden units.
             output_size (int): Number of output features.
         """
-        super().__init__()  # Call base class constructor
-
+        super().__init__()
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.output_size = output_size
         self.hidden_state = np.zeros(hidden_size)
         self.trainable = True
         self.memorize = False
-
-        # Define Fully Connected Layers Before Setting Weights
         self.fc1 = FullyConnected(self.input_size + self.hidden_size, self.hidden_size)
         self.fc2 = FullyConnected(self.hidden_size, self.output_size)
         self.tanh = TanH()
         self.sigmoid = Sigmoid()
-        
-        # Now it's safe to set weights after defining fc1
-        self._weights = self.fc1.weights
+        self.weights = self.fc1.weights
         self.optimizer = None
 
     def forward(self, input_tensor):
@@ -47,6 +43,7 @@ class RNN(BaseLayer):
         Returns:
             numpy.ndarray: Output tensor of shape (sequence_length, output_size).
         """
+        self.weights = self.fc1.weights
         if not self.memorize:
             self.hidden_state = np.zeros(self.hidden_size)
         
@@ -99,28 +96,52 @@ class RNN(BaseLayer):
         """
         self.fc1.initialize(weights_initializer, bias_initializer)
         self.fc2.initialize(weights_initializer, bias_initializer)
-        self._weights = self.fc1.weights
+        self.weights = self.fc1.weights
 
     def get_weights(self):
-        """Returns the current weights of the RNN."""
+        """
+        Returns the current weights of the RNN.
+
+        Returns:
+            numpy.ndarray: Weight matrix of the RNN.
+        """
         return self.fc1.weights
 
     def set_weights(self, weights):
-        """Sets new weights for the RNN."""
+        """
+        Sets new weights for the RNN.
+
+        Args:
+            weights (numpy.ndarray): New weight matrix.
+        """
         self.fc1.weights = weights
-        self._weights = self.fc1.weights
+        self.weights = self.fc1.weights
 
     @property
     def weights(self):
-        return self._weights
+        """
+        Property to get the weights.
+
+        Returns:
+            numpy.ndarray: Weight matrix of the RNN.
+        """
+        return self.fc1.weights
 
     @weights.setter
     def weights(self, weights):
+        """
+        Property setter to update the weights.
+
+        Args:
+            weights (numpy.ndarray): New weight matrix.
+        """
         self.fc1.weights = weights
-        self._weights = weights
 
     def calculate_regularization_loss(self):
-        """Computes the regularization loss if a regularizer is used."""
-        if self.optimizer and hasattr(self.optimizer, "regularizer"):
-            return self.optimizer.regularizer.norm(self._weights)
-        return 0
+        """
+        Computes the regularization loss if a regularizer is used.
+
+        Returns:
+            float: Regularization loss value.
+        """
+        return self.optimizer.regularizer.norm(self.weights)
