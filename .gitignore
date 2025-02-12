@@ -4,3 +4,4 @@ NeuralNetworkTests3.py
 .conda/
 __pycache__/
 .DS_Store
+log.txt
