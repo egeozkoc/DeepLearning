@@ -1,6 +1,5 @@
 import Layers.FullyConnected
 from Optimization.Loss import CrossEntropyLoss
-from Layers.Initializers import *
 import copy
 
 
@@ -10,7 +9,7 @@ class NeuralNetwork:
     and optimization methods.
     """
     
-    def __init__(self, optimizer, weights_initializer=Constant, bias_initializer=Constant):
+    def __init__(self, optimizer, weights_initializer, bias_initializer):
         """
         Initializes the NeuralNetwork.
 
