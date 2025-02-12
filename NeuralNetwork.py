@@ -6,7 +6,7 @@ import copy
 class NeuralNetwork:
     """
     A class representing a neural network model with multiple layers, loss function,
-    and optimization strategies.
+    and optimization methods.
     """
     
     def __init__(self, optimizer, weights_initializer, bias_initializer):
