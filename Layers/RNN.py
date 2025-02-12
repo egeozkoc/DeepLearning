@@ -7,7 +7,7 @@ import numpy as np
 
 class RNN(BaseLayer):
     """
-    Implements a Recurrent Neural Network (RNN) layer.
+    Implements a simple Recurrent Neural Network (RNN) layer.
     """
     
     def __init__(self, input_size, hidden_size, output_size):
@@ -32,6 +32,7 @@ class RNN(BaseLayer):
         self.sigmoid = Sigmoid()
         self.weights = self.fc1.weights
         self.optimizer = None
+
 
     def forward(self, input_tensor):
         """
