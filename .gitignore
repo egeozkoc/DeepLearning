@@ -3,3 +3,4 @@ NeuralNetworkTests2.py
 NeuralNetworkTests3.py
 .conda/
 __pycache__/
+.DS_Store
